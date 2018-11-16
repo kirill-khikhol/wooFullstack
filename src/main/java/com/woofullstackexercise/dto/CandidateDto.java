@@ -28,7 +28,7 @@ public class CandidateDto implements Serializable {
 	public CandidateDto(CandidateEntity c) {
 		super();
 		this.name = c.getName();
-		this.techSkills = c.getTechSkills();
+		this.techSkills = c.getStringTechSkills();
 		this.expectation = new ExpectationDto(c.getExpectation());
 		this.processes = c.getProcessDto();
 	}

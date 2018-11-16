@@ -30,7 +30,7 @@ public class PositionDto implements Serializable {
 	public PositionDto(PositionEntity p) {
 		super();
 		this.title = p.getTitle();
-		this.techStack = p.getTechStack();
+		this.techStack = p.getStringTechStack();
 		this.salary = p.getSalary();
 		this.location = p.getLocation().toString();
 	}

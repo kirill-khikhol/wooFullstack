@@ -27,7 +27,7 @@ public class ExpectationDto implements Serializable {
 
 	public ExpectationDto(ExpectationEntity e) {
 		super();
-		this.techStack = e.getTechStack();
+		this.techStack = e.getStringTechStack();
 		this.salary = e.getSalary();
 		this.location = e.getLocation().toString();
 	}

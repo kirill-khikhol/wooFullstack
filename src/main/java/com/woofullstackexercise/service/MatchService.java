@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.woofullstackexercise.entities.CandidateEntity;
 import com.woofullstackexercise.entities.PositionEntity;
 import com.woofullstackexercise.entities.ProcessEntity;
+import com.woofullstackexercise.enumirations.Technologies;
 import com.woofullstackexercise.repository.CandidateRepo;
 import com.woofullstackexercise.repository.PositionRepo;
 import com.woofullstackexercise.repository.ProcessRepo;
@@ -110,7 +111,7 @@ public class MatchService implements IMatchService {
 	private double matchTechExp(CandidateEntity candidateE, PositionEntity positionE) {
 		technologiesExpectationFulfillment = 0;
 		int count = 0;
-		for (String skill : positionE.getTechStack()) {
+		for (Technologies skill : positionE.getTechStack()) {
 			if (candidateE.getExpectation().getTechStack().contains(skill)) {
 				count++;
 			}
@@ -126,7 +127,7 @@ public class MatchService implements IMatchService {
 
 	private double matchSkillExp(CandidateEntity candidateE, PositionEntity positionE) {
 		int count = 0;
-		for (String skill : positionE.getTechStack()) {
+		for (Technologies skill : positionE.getTechStack()) {
 			if (candidateE.getTechSkills().contains(skill)) {
 				count++;
 			}

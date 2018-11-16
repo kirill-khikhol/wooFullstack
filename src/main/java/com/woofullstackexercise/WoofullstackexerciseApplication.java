@@ -16,10 +16,9 @@ import com.woofullstackexercise.entities.EmployerEntity;
 import com.woofullstackexercise.entities.ExpectationEntity;
 import com.woofullstackexercise.entities.PositionEntity;
 import com.woofullstackexercise.enumirations.LocationEnum;
+import com.woofullstackexercise.enumirations.Technologies;
 import com.woofullstackexercise.repository.CandidateRepo;
 import com.woofullstackexercise.repository.EmployerRepo;
-import com.woofullstackexercise.repository.ILocationRepo;
-import com.woofullstackexercise.repository.ITechRepo;
 import com.woofullstackexercise.service.IMatchService;
 
 @SpringBootApplication
@@ -50,34 +49,49 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 	}
 
 	private void initEmployers() {
-		EmployerEntity employerE = new EmployerEntity();
-		employerE.setName("Burito Burito Taco Man");
-		Set<PositionEntity> positions = new HashSet<>();
-		PositionEntity posE = new PositionEntity();
-		posE.setTitle("Java Expert");
-		posE.setLocation(LocationEnum.TEL_AVIV);
-		posE.setSalary(25000);
-		Set<String> techStack = new HashSet<>();
-		techStack.add(ITechRepo.TECH_LIST.get(0));
-		techStack.add(ITechRepo.TECH_LIST.get(2));
-		techStack.add(ITechRepo.TECH_LIST.get(9));
-		techStack.add(ITechRepo.TECH_LIST.get(10));
-		posE.setTechStack(techStack);
-		positions.add(posE);
+//		String[] companyNames = { "Burito Burito Taco Man", "Best Company", "Sunny Side Inc" };
+		String[] companyNames = { "Burito Burito Taco Man" };
+		String[] positionNames = { "Java Expert", "Web Expert", "Full Stack Developer" };
+		EmployerEntity employerE = null;
+		for (String companyName : companyNames) {
+			employerE = new EmployerEntity();
+			employerE.setName(companyName);
+			Set<PositionEntity> positions = new HashSet<>();
+			for (String positionName : positionNames) {
+				PositionEntity posE = new PositionEntity();
+				posE.setTitle(positionName);
+				posE.setLocation(LocationEnum.TEL_AVIV);
+				posE.setSalary(25000);
+				Set<Technologies> techStack = new HashSet<>();
+				for (int i = 0; i < 5; i++) {
+					techStack.add(Technologies.getRandom());
+				}
+				posE.setTechStack(techStack);
+				positions.add(posE);
+			}
+			employerE.setPositions(positions);
+			eRepo.save(employerE);
+		}
 
-		employerE.setPositions(positions);
-		posE = new PositionEntity();
-		posE.setTitle("Web Expert");
-		posE.setLocation(LocationEnum.TEL_AVIV);
-		posE.setSalary(24000);
-		techStack = new HashSet<>();
-		techStack.add(ITechRepo.TECH_LIST.get(3));
-		techStack.add(ITechRepo.TECH_LIST.get(12));
-		techStack.add(ITechRepo.TECH_LIST.get(7));
-		techStack.add(ITechRepo.TECH_LIST.get(6));
-		posE.setTechStack(techStack);
-		positions.add(posE);
-		eRepo.save(employerE);
+//		techStack.add(Technologies.JAVA);
+//		techStack.add(Technologies.LINUX);
+//		techStack.add(Technologies.REST);
+//		techStack.add(Technologies.HIBERNATE);
+
+//		posE = new PositionEntity();
+//		posE.setTitle("Web Expert");
+//		posE.setLocation(LocationEnum.TEL_AVIV);
+//		posE.setSalary(24000);
+//		techStack = new HashSet<>();
+//		for (int i = 0; i < 5; i++) {
+//			techStack.add(Technologies.getRandom());
+//		}
+//		techStack.add(Technologies.JAVA);
+//		techStack.add(Technologies.HIBERNATE);
+//		techStack.add(Technologies.OOP);
+//		techStack.add(Technologies.MAVEN);
+//		posE.setTechStack(techStack);
+//		positions.add(posE);
 	}
 
 	private void initCandidates(int count) {
@@ -87,9 +101,9 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 			ExpectationEntity expE = new ExpectationEntity();
 			expE.setSalary(15000 + 500 * i);
 			expE.setLocation(LocationEnum.TEL_AVIV);
-			for (int j = 0; j < i + 1; j++) {
-				expE.getTechStack().add(ITechRepo.TECH_LIST.get(j));
-				candidateE.getTechSkills().add(ITechRepo.TECH_LIST.get(j));
+			for (int j = 0; j < 5; j++) {
+				expE.getTechStack().add(Technologies.getRandom());
+				candidateE.getTechSkills().add(Technologies.getRandom());
 			}
 
 			candidateE.setExpectation(expE);
@@ -100,15 +114,5 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 
 	private void initTechList() {
 		Set<String> techList = new HashSet<>();
-		techList.add("java");
-		techList.add("pyton");
-		techList.add("ruby");
-		techList.add("linux");
-		techList.add("REST");
-		techList.add("OOP");
-		techList.add("Hibernate");
-		techList.add("Maven");
-		techList.add("Git");
-		techList.add("MySQL");
 	}
 }

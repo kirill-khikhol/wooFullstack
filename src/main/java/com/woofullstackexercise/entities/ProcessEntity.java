@@ -29,6 +29,7 @@ public class ProcessEntity {
 	private Long id;
 	@ManyToOne
 	private CandidateEntity candidate;
+
 	@ManyToOne
 	private PositionEntity position;
 	@NotNull
