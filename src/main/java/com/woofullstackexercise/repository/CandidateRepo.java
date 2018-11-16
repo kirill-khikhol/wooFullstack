@@ -12,7 +12,16 @@ import org.springframework.data.repository.query.Param;
 
 import com.woofullstackexercise.entities.CandidateEntity;
 
-public interface CandidateRepo extends JpaRepository<CandidateEntity, Long> {
-	@Query("Select c from CandidateEntity c JOIN c.techStack t WHERE t.techName IN :techs")
-	HashSet<CandidateEntity> getAllByTech(@Param("techs") List<String> techName);
+public interface CandidateRepo extends JpaRepository<CandidateEntity, String> {
+	@Query("SELECT c FROM CandidateEntity c WHERE c.name IS NOT NULL")
+	HashSet<CandidateEntity> findAllCandidate();
+//	@Query("Select c from CandidateEntity c JOIN c.techStack t WHERE t.techName IN :techs")
+//	HashSet<CandidateEntity> getAllByTech(@Param("techs") List<String> techName);
+
+	@Query("SELECT c FROM CandidateEntity c WHERE c NOT IN (SELECT p.candidate FROM ProcessEntity p WHERE p.status = 'New')")
+	HashSet<CandidateEntity> findAllAvaliableCandidates(int maxNewProcessesForCandidate);
+//	@Query("SELECT c FROM CandidateEntity c WHERE c NOT IN (SELECT COUNT(p.candidate) FROM ProcessEntity p WHERE p.status = 'New' GROUP BY p.candidate)")
+//	HashSet<CandidateEntity> findAllAvaliableCandidates(int maxNewProcessesForCandidate);
+
+//	amountOfNewProcessesForCandidate
 }
