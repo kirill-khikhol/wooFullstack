@@ -1,17 +1,13 @@
 package com.woofullstackexercise.service;
 
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.woofullstackexercise.entities.CandidateEntity;
 import com.woofullstackexercise.entities.PositionEntity;
 import com.woofullstackexercise.entities.ProcessEntity;
+import com.woofullstackexercise.enumirations.StatusEnum;
 import com.woofullstackexercise.enumirations.Technologies;
 import com.woofullstackexercise.repository.CandidateRepo;
 import com.woofullstackexercise.repository.PositionRepo;
@@ -30,20 +26,13 @@ public class MatchService implements IMatchService {
 	private static final int MAX_POINTS = 25;
 	private static final int MAX_NEW_PROCESSES_FOR_CANDIDATE = 1;
 
-	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
 	private int technologiesExpectationFulfillment = 0;
 	private boolean salaryExpectationFulfillment = false;
 	private boolean locationExpectationFulfillment = false;
 
 	@Override
 	public void findMatchEveryHour() {
-		final Runnable matcher = new Runnable() {
-			public void run() {
-				findMatch();
-			}
-		};
-		final ScheduledFuture<?> matcherHandle = scheduler.scheduleAtFixedRate(matcher, 0, 1, TimeUnit.HOURS);
+		findMatch();
 	}
 
 	private void findMatch() {
@@ -63,34 +52,37 @@ public class MatchService implements IMatchService {
 	}
 
 	@Override
-	public void findMatchForCandidate(CandidateEntity candidateE) {
+	public CandidateEntity findMatchForCandidate(CandidateEntity candidateE) {
+		CandidateEntity result = candidateE;
 		for (PositionEntity positionE : positionRepo.findAllNotUsedPositions(candidateE)) {
-
 			double res = 0;
 			res += matchSkillExp(candidateE, positionE);
 			res += matchTechExp(candidateE, positionE);
 			res += matchSalaryExp(candidateE, positionE);
 			res += matchLocationExp(candidateE, positionE);
 			System.out.println("findMatch: " + res);
-			if (res >= MATCH_CONDITION) {
+			if ((res >= MATCH_CONDITION) && (candidateE.getNewCount() < MAX_NEW_PROCESSES_FOR_CANDIDATE)) {
 				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!      MATCH       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				ProcessEntity processE = new ProcessEntity();
 				processE.setCandidate(candidateE);
 				processE.setPosition(positionE);
-				processE.setStatus(IProcessService.STATUS_NEW);
+				processE.setStatus(StatusEnum.NEW);
+				candidateE.setNewCount(candidateE.getNewCount() + 1);
 				processE.setTechnologiesExpectationFulfillment(technologiesExpectationFulfillment);
 				processE.setSalaryExpectationFulfillment(salaryExpectationFulfillment);
 				processE.setLocationExpectationFulfillment(locationExpectationFulfillment);
-				processRepo.save(processE);
-				break;
+//				processRepo.save(processE);
+				candidateE.getProcesses().add(processE);
+				result = candidateRepo.save(candidateE);
 			}
 		}
+		return result;
 	}
 
 	private double matchLocationExp(CandidateEntity candidateE, PositionEntity positionE) {
 		locationExpectationFulfillment = false;
 		double res = 0;
-		if (candidateE.getExpectation().getLocation()==positionE.getLocation()) {
+		if (candidateE.getExpectation().getLocation() == positionE.getLocation()) {
 			res = MAX_POINTS;
 			locationExpectationFulfillment = true;
 		}
@@ -116,12 +108,8 @@ public class MatchService implements IMatchService {
 				count++;
 			}
 		}
-		double res = 1. * count / candidateE.getExpectation().getTechStack().size();
-		System.out.println("count: " + count + " / candidateE.getExpectation().getTechStack().size(): "
-				+ candidateE.getExpectation().getTechStack().size());
-
+		double res = (double) (count) / candidateE.getExpectation().getTechStack().size();
 		technologiesExpectationFulfillment = count;
-
 		return MAX_POINTS * res;
 	}
 
@@ -134,7 +122,7 @@ public class MatchService implements IMatchService {
 		}
 		double res = 0;
 		if (count != 0) {
-			res = 1. * count / positionE.getTechStack().size();
+			res = (double) (count) / positionE.getTechStack().size();
 		}
 		return MAX_POINTS * res;
 	}

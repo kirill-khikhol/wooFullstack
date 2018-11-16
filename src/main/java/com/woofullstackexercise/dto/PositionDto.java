@@ -1,12 +1,7 @@
 package com.woofullstackexercise.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
 
 import com.woofullstackexercise.entities.PositionEntity;
 

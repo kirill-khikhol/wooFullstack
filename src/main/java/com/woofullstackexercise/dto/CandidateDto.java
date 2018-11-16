@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.woofullstackexercise.entities.CandidateEntity;
-import com.woofullstackexercise.entities.ExpectationEntity;
-import com.woofullstackexercise.entities.ProcessEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +21,9 @@ public class CandidateDto implements Serializable {
 	private Set<String> techSkills;
 	private ExpectationDto expectation;
 	private Set<ProcessDto> processes;
+	private int newCount;
+	private int acceptedCount;
+	private int rejectedCount;
 
 	public CandidateDto(CandidateEntity c) {
 		super();
@@ -31,6 +31,10 @@ public class CandidateDto implements Serializable {
 		this.techSkills = c.getStringTechSkills();
 		this.expectation = new ExpectationDto(c.getExpectation());
 		this.processes = c.getProcessDto();
+		this.newCount = c.getNewCount();
+		this.acceptedCount = c.getAcceptedCount();
+		this.rejectedCount = c.getRejectedCount();
+
 	}
 
 }

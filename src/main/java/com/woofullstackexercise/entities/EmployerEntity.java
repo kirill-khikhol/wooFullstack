@@ -1,5 +1,6 @@
 package com.woofullstackexercise.entities;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,9 +18,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployerEntity {
+public class EmployerEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String name;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<PositionEntity> positions;
+
+	
 }

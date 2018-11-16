@@ -3,13 +3,6 @@ package com.woofullstackexercise.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.woofullstackexercise.entities.CandidateEntity;
-import com.woofullstackexercise.entities.PositionEntity;
 import com.woofullstackexercise.entities.ProcessEntity;
 
 import lombok.AllArgsConstructor;
@@ -41,7 +34,7 @@ public class ProcessDto implements Serializable {
 		super();
 		this.id = p.getId();
 		this.position = new PositionDto(p.getPosition());
-		this.status = p.getStatus();
+		this.status = p.getStatus().toString();
 		this.creationTime = p.getCreationTime();
 		this.technologiesExpectationFulfillmentAmount = p.getTechnologiesExpectationFulfillment();
 		this.technologiesExpectationFulfillmentOf = p.getCandidate().getExpectation().getTechStack().size();

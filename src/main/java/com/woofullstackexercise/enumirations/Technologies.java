@@ -6,7 +6,6 @@ public enum Technologies {
 	public static Technologies getRandom() {
 		Technologies res = null;
 		res = Technologies.values()[(int) (Math.random() * Technologies.values().length)];
-		System.out.println(res);
 		return res;
 	}
 }

@@ -1,5 +1,6 @@
 package com.woofullstackexercise.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
 import com.woofullstackexercise.enumirations.LocationEnum;
 import com.woofullstackexercise.enumirations.Technologies;
 
@@ -26,12 +24,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PositionEntity {
+public class PositionEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue
+	private Long id;
 	private String title;
-//	@Id
-//	@ManyToOne
-//	private EmployerEntity employer;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<Technologies> techStack = new HashSet<>();
@@ -46,4 +47,7 @@ public class PositionEntity {
 		}
 		return result;
 	}
+
+
+
 }

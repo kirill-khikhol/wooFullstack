@@ -1,11 +1,8 @@
 package com.woofullstackexercise;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.hibernate.jdbc.Expectation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -36,21 +33,13 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		initTechList();
 		initCandidates(5);
 		initEmployers();
-//		List<String> t = Arrays.asList("Git", "java");
-//		System.out.println(cRepo.getAllByTech(t).size());
-//		for (CandidateEntity ce : cRepo.getAllByTech(t)) {
-////			ce.toString();
-//			System.out.println(ce.getName());
-//		}
 		matchService.findMatchEveryHour();
 	}
 
 	private void initEmployers() {
-//		String[] companyNames = { "Burito Burito Taco Man", "Best Company", "Sunny Side Inc" };
-		String[] companyNames = { "Burito Burito Taco Man" };
+		String[] companyNames = { "Burito Burito Taco Man", "Best Company", "Sunny Side Inc" };
 		String[] positionNames = { "Java Expert", "Web Expert", "Full Stack Developer" };
 		EmployerEntity employerE = null;
 		for (String companyName : companyNames) {
@@ -72,26 +61,6 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 			employerE.setPositions(positions);
 			eRepo.save(employerE);
 		}
-
-//		techStack.add(Technologies.JAVA);
-//		techStack.add(Technologies.LINUX);
-//		techStack.add(Technologies.REST);
-//		techStack.add(Technologies.HIBERNATE);
-
-//		posE = new PositionEntity();
-//		posE.setTitle("Web Expert");
-//		posE.setLocation(LocationEnum.TEL_AVIV);
-//		posE.setSalary(24000);
-//		techStack = new HashSet<>();
-//		for (int i = 0; i < 5; i++) {
-//			techStack.add(Technologies.getRandom());
-//		}
-//		techStack.add(Technologies.JAVA);
-//		techStack.add(Technologies.HIBERNATE);
-//		techStack.add(Technologies.OOP);
-//		techStack.add(Technologies.MAVEN);
-//		posE.setTechStack(techStack);
-//		positions.add(posE);
 	}
 
 	private void initCandidates(int count) {
@@ -110,9 +79,5 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 
 			cRepo.save(candidateE);
 		}
-	}
-
-	private void initTechList() {
-		Set<String> techList = new HashSet<>();
 	}
 }
