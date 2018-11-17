@@ -18,8 +18,8 @@ public class CandidateDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private Set<String> techSkills;
-	private ExpectationDto expectation;
+//	private Set<String> techSkills;
+//	private ExpectationDto expectation;
 	private Set<ProcessDto> processes;
 	private int newCount;
 	private int acceptedCount;
@@ -28,8 +28,8 @@ public class CandidateDto implements Serializable {
 	public CandidateDto(CandidateEntity c) {
 		super();
 		this.name = c.getName();
-		this.techSkills = c.getStringTechSkills();
-		this.expectation = new ExpectationDto(c.getExpectation());
+//		this.techSkills = c.getStringTechSkills();
+//		this.expectation = new ExpectationDto(c.getExpectation());
 		this.processes = c.getProcessDto();
 		this.newCount = c.getNewCount();
 		this.acceptedCount = c.getAcceptedCount();

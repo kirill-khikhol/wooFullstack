@@ -17,10 +17,10 @@ public class Controller {
 	@Autowired
 	ICandidateService candidateServise;
 
-	@GetMapping
-	public String hello() {
-		return "hello";
-	}
+//	@GetMapping
+//	public String hello() {
+//		return "hello";
+//	}
 
 	@GetMapping("/candidate")
 	public CandidateDto getCandidate(@RequestParam(value = "name") String name) {
@@ -29,12 +29,16 @@ public class Controller {
 
 	@PutMapping("/process/accept")
 	public CandidateDto acceptProcessStatus(@RequestParam(value = "processId") String processId) {
-		System.out.println("processId: " + processId);
 		return candidateServise.changeProcessStatus(processId, StatusEnum.ACCEPTED);
 	}
 
 	@PutMapping("/process/reject")
 	public CandidateDto rejectProcessStatus(@RequestParam(value = "processId") String processId) {
 		return candidateServise.changeProcessStatus(processId, StatusEnum.REJECTED);
+	}
+
+	@PutMapping("/candidate/a")
+	public CandidateDto acceptProcessStatustest() {
+		return candidateServise.changeProcessStatus("20", StatusEnum.ACCEPTED);
 	}
 }

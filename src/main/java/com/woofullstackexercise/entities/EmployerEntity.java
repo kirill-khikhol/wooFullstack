@@ -28,5 +28,4 @@ public class EmployerEntity implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<PositionEntity> positions;
 
-	
 }

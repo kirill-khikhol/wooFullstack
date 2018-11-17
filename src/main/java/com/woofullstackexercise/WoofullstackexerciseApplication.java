@@ -56,6 +56,7 @@ public class WoofullstackexerciseApplication implements CommandLineRunner {
 					techStack.add(Technologies.getRandom());
 				}
 				posE.setTechStack(techStack);
+				posE.setEmployer(employerE);
 				positions.add(posE);
 			}
 			employerE.setPositions(positions);

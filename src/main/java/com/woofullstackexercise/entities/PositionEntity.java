@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import com.woofullstackexercise.enumirations.LocationEnum;
 import com.woofullstackexercise.enumirations.Technologies;
 
@@ -39,6 +41,8 @@ public class PositionEntity implements Serializable {
 	private Integer salary;
 	@Enumerated(EnumType.STRING)
 	private LocationEnum location;
+	@ManyToOne
+	private EmployerEntity employer;
 
 	public Set<String> getStringTechStack() {
 		Set<String> result = new HashSet<>();

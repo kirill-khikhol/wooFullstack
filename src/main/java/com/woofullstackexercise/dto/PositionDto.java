@@ -21,6 +21,7 @@ public class PositionDto implements Serializable {
 	private Set<String> techStack;
 	private Integer salary;
 	private String location;
+	private String employerName;
 
 	public PositionDto(PositionEntity p) {
 		super();
@@ -28,6 +29,7 @@ public class PositionDto implements Serializable {
 		this.techStack = p.getStringTechStack();
 		this.salary = p.getSalary();
 		this.location = p.getLocation().toString();
+		this.employerName = p.getEmployer().getName();
 	}
 
 }
